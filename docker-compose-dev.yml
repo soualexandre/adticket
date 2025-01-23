@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  api-adticket:
+    container_name: api-adticket
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    logging:
+      driver: local
+      options:
+        max-size: '10m'
+        max-file: '10'
+    restart: unless-stopped
+    ports:
+      - 3036:80
+    volumes:
+      - ./code:/app
+    environment:
+      DATABASE_URL: 'postgresql://postgres:postgres@host.docker.internal:5432/lira_sandbox_administrator?schema=public&connection_limit=5'
+      ENVIRONMENT: 'localhost' 
+      NODE_ENV: 'development'
