@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  tickets   Ticket[]
+
+  @@index([email])
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  date        DateTime
+  startTime   DateTime
+  image       String
+  batches     Batch[]
+  tickets     Ticket[]
+
+  @@map("events")
+  @@index([date])
+}
+
+model Batch {
+  id          String   @id @default(uuid())
+  eventId     String
+  price       Float
+  quantity    Int
+  tickets     Ticket[]
+  event       Event    @relation(fields: [eventId], references: [id])
+
+  @@map("batches")
+}
+
+model Ticket {
+  id          String   @id @default(uuid())
+  eventId     String
+  batchId     String
+  userId      String
+  price       Float
+  quantity    Int
+  totalPrice  Float
+  event       Event    @relation(fields: [eventId], references: [id])
+  batch       Batch    @relation(fields: [batchId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@map("tickets")
+}
