@@ -1,5 +1,5 @@
 import { Batch } from "src/modules/batch/entities/batch.entity";
-import { User } from "src/modules/user/entities/user.entity";
+import { UserEntity } from "src/modules/user/entities/user.entity";
 
 export class Ticket {
     id: string;
@@ -11,5 +11,5 @@ export class Ticket {
     totalPrice: number;
     event: Event;
     batch: Batch;
-    user: User;
+    user: UserEntity;
 }

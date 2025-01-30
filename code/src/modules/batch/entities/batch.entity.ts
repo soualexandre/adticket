@@ -8,4 +8,7 @@ export class Batch {
     quantity: number;
     tickets: Ticket[];
     event: Event;
+    constructor(partial: Partial<Batch>) {
+        Object.assign(this, partial);
+    }
 }

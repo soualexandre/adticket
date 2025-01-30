@@ -1,16 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { USER_TYPE_GATEWAY, UserTypePrismaGateway } from './gateway/user.type.gateway';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+
+  constructor(
+    @Inject(USER_TYPE_GATEWAY) private readonly userGateway: UserTypePrismaGateway,
+  ) { }
+
+
+  async create(createUserDto: CreateUserDto) {
+    const user = await this.userGateway.create(createUserDto);
+    return user;
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    const page = 1;
+    const limit = 1000;
+    const skip = (page - 1) * limit;
+    const take = limit;
+
+    return await this.userGateway.findAll(skip, take);
   }
+
 
   findOne(id: number) {
     return `This action returns a #${id} user`;

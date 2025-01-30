@@ -8,10 +8,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  tickets   Ticket[]
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  phoneNumber String
+  password    String
+  tickets     Ticket[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([email])
 }
@@ -26,6 +31,9 @@ model Event {
   batches     Batch[]
   tickets     Ticket[]
 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
   @@map("events")
   @@index([date])
 }
@@ -37,6 +45,9 @@ model Batch {
   quantity    Int
   tickets     Ticket[]
   event       Event    @relation(fields: [eventId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("batches")
 }
@@ -52,6 +63,9 @@ model Ticket {
   event       Event    @relation(fields: [eventId], references: [id])
   batch       Batch    @relation(fields: [batchId], references: [id])
   user        User     @relation(fields: [userId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("tickets")
 }

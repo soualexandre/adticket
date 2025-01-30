@@ -10,4 +10,7 @@ export class Event {
     image: string;
     batches: Batch[];
     tickets: Ticket[];
+    constructor(partial: Partial<Event>) {
+        Object.assign(this, partial);
+    }
 }
