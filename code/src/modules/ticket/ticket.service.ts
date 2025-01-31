@@ -1,12 +1,11 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
-import { TICKET_TYPE_GATEWAY } from './gateway/ticket.type.gateway';
-import { TicketPrismaGateway } from './gateway/ticket.prisma.gateway';
+import { TICKET_TYPE_GATEWAY, TicketTypePrismaGateway } from './gateway/ticket.type.gateway';
 
 @Injectable()
 export class TicketService {
-  constructor(@Inject(TICKET_TYPE_GATEWAY) private readonly ticketGateway: TicketPrismaGateway) { }
+  constructor(@Inject(TICKET_TYPE_GATEWAY) private readonly ticketGateway: TicketTypePrismaGateway) { }
   async create(createTicketDto: CreateTicketDto) {
     try {
       const ticket = await this.ticketGateway.create(createTicketDto);

@@ -1,4 +1,3 @@
-import { Batch } from "src/modules/batch/entities/batch.entity";
 import { TicketEntity } from "src/modules/ticket/entities/ticket.entity";
 
 export class UserEntity {
