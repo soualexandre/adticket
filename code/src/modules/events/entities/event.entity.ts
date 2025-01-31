@@ -1,5 +1,5 @@
 import { Batch } from 'src/modules/batch/entities/batch.entity';
-import { Ticket } from 'src/modules/ticket/entities/ticket.entity';
+import { TicketEntity } from 'src/modules/ticket/entities/ticket.entity';
 
 export class EventEntity {
     id: string;
@@ -9,7 +9,7 @@ export class EventEntity {
     startTime: Date;
     image: string;
     batches?: Batch[];
-    tickets?: Ticket[];
+    tickets?: TicketEntity[];
     constructor(partial: Partial<Event>) {
         Object.assign(this, partial);
     }

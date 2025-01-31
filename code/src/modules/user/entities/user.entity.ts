@@ -1,5 +1,5 @@
 import { Batch } from "src/modules/batch/entities/batch.entity";
-import { Ticket } from "src/modules/ticket/entities/ticket.entity";
+import { TicketEntity } from "src/modules/ticket/entities/ticket.entity";
 
 export class UserEntity {
     id: string;
@@ -8,7 +8,7 @@ export class UserEntity {
     phoneNumber?: string;
     password: string;
 
-    tickets?: Ticket[];
+    tickets?: TicketEntity[];
 
     constructor(partial: Partial<UserEntity>) {
         Object.assign(this, partial);

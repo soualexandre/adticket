@@ -1,7 +1,7 @@
 import { Batch } from "src/modules/batch/entities/batch.entity";
 import { UserEntity } from "src/modules/user/entities/user.entity";
 
-export class Ticket {
+export class TicketEntity {
     id: string;
     eventId: string;
     batchId: string;
