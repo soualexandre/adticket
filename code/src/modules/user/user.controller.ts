@@ -15,7 +15,7 @@ export class UserController {
       }
       return create;
     } catch (error) {
-
+      throw new HttpException('User not created', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
