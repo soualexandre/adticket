@@ -85,6 +85,20 @@ export class UserPrismaGateway implements UserTypePrismaGateway {
     return this.mapToUserEntity(user);
   }
 
+  async findOneByEmail(email: string): Promise<UserEntity> {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return this.mapToUserEntity(user);
+  }
+
+
   async update(id: string, updateUserDto: UpdateUserDto): Promise<UserEntity> {
     const user = await this.prisma.user.update({
       where: { id },
