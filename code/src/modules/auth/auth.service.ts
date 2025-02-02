@@ -38,7 +38,6 @@ export class AuthService {
   async sinIn(createAuthDto: CreateAuthDto): Promise<any> {
     const expire = false;
     const user = await this.validateUser(createAuthDto.email, createAuthDto.password);
-    this.logger.debug('Sending', user);
     if (!user) {
       this.logger.warn(`User not found with ID: ${user}`);
       throw new UnauthorizedException('User not found');
@@ -51,7 +50,6 @@ export class AuthService {
     }
 
     const redisData = await this.cacheService.storeData(user.id, dataUser, '24h');
-    console.log(redisData);
     return {
       ...user,
       accessToken

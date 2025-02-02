@@ -8,21 +8,23 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   name        String
-  email       String   @unique
+  email       String    @unique
   phoneNumber String
   password    String
-  tickets     Ticket[]
+  tickets     Ticket[]  @relation("UserTickets")
+  orders      Order[]
+  boughtTickets Ticket[] @relation("BuyerTickets") // Relação inversa para Ticket.buyer
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@index([email])
 }
 
 model Event {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   description String
   date        DateTime
@@ -31,41 +33,157 @@ model Event {
   batches     Batch[]
   tickets     Ticket[]
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@map("events")
   @@index([date])
 }
 
 model Batch {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   eventId     String
   price       Float
   quantity    Int
   tickets     Ticket[]
-  event       Event    @relation(fields: [eventId], references: [id])
+  event       Event     @relation(fields: [eventId], references: [id])
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@map("batches")
 }
 
+model Order {
+  id          String    @id @default(uuid())
+  userId      String
+  totalAmount Float
+  status      OrderStatus @default(PENDING)
+  user        User       @relation(fields: [userId], references: [id])
+  tickets     Ticket[]
+  payments    Payment[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("orders")
+}
+
+model Payment {
+  id          String    @id @default(uuid())
+  orderId     String
+  amount      Float
+  status      PaymentStatus @default(PENDING)
+  method      PaymentMethod
+  transactionId String?
+  order       Order    @relation(fields: [orderId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("payments")
+}
+
 model Ticket {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   eventId     String
   batchId     String
-  userId      String
+  orderId     String
+  buyerId     String
+  userId      String?   
+  guestId     String?  
   price       Float
-  quantity    Int
-  totalPrice  Float
-  event       Event    @relation(fields: [eventId], references: [id])
-  batch       Batch    @relation(fields: [batchId], references: [id])
-  user        User     @relation(fields: [userId], references: [id])
+  status      TicketStatus @default(PENDING)
+  event       Event     @relation(fields: [eventId], references: [id])
+  batch       Batch     @relation(fields: [batchId], references: [id])
+  order       Order     @relation(fields: [orderId], references: [id])
+  user        User?     @relation(name: "UserTickets", fields: [userId], references: [id])
+  buyer       User      @relation(name: "BuyerTickets", fields: [buyerId], references: [id]) // Correção
+  guest       Guest?    @relation(fields: [guestId], references: [id])
+  link        TicketLink?
+  ticketValidations TicketValidation[] 
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("tickets")
+}
+
+model Guest {
+  id          String   @id @default(uuid())
+  name        String
+  email       String?  @unique
+  phoneNumber String?
+  tickets     Ticket[] // Relação inversa para Ticket.guest
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@map("tickets")
+  @@map("guests")
+}
+
+model TicketLink {
+  id          String    @id @default(uuid())
+  ticketId    String    @unique
+  linkHash    String    @unique
+  expiration  DateTime
+  status      LinkStatus @default(ACTIVE)
+  ticket      Ticket    @relation(fields: [ticketId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("ticket_links")
+}
+
+model TicketValidation {
+  id          String    @id @default(uuid())
+  ticketId    String
+  validatedAt DateTime
+  method      ValidationMethod
+  location    String?
+  ticket      Ticket    @relation(fields: [ticketId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("ticket_validations")
+}
+
+enum TicketStatus {
+  PENDING
+  ASSIGNED
+  USED
+  CANCELLED
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  PIX
+  BOLETO
+  PAYPAL
+}
+
+enum LinkStatus {
+  ACTIVE
+  USED
+  EXPIRED
+}
+
+enum ValidationMethod {
+  QR_CODE
+  PIN
+  NFC
 }

@@ -14,6 +14,11 @@ import { TicketModule } from './modules/ticket/ticket.module';
 import { UserPrismaGateway } from './modules/user/gateway/user.prisma.gateway';
 import { UserModule } from './modules/user/user.module';
 import { PrismaModule } from './services/prisma/prisma.module';
+import { TicketLinkModule } from './modules/ticket-link/ticket-link.module';
+import { TicketValidationModule } from './modules/ticket-validation/ticket-validation.module';
+import { OrderModule } from './modules/order/order.module';
+import { PaymentModule } from './modules/payment/payment.module';
+import { GuestModule } from './modules/guest/guest.module';
 
 @Module({
   imports: [PrismaModule.forRoot({ isGlobal: true }),
@@ -21,6 +26,18 @@ import { PrismaModule } from './services/prisma/prisma.module';
     UserModule, BatchModule, AuthModule, CacheModule.register(),
   ConfigModule.forRoot({ isGlobal: true }),
   CacheModule.registerAsync(RedisOptions),
+    GuestModule,
+    TicketValidationModule,
+    OrderModule,
+    PaymentModule,
+    TicketLinkModule,
+    TicketValidationModule,
+  ],
+  exports: [
+    TicketLinkModule,
+    TicketValidationModule,
+    OrderModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService, UserPrismaGateway,

@@ -8,6 +8,8 @@ export class BatchEntity {
     quantity: number;
     tickets: TicketEntity[];
     event: EventEntity;
+    createdAt: Date;
+    updatedAt: Date;
     constructor(partial: Partial<BatchEntity>) {
         Object.assign(this, partial);
     }

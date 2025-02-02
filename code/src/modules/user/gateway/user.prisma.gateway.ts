@@ -131,7 +131,11 @@ export class UserPrismaGateway implements UserTypePrismaGateway {
       email: user.email,
       phoneNumber: user.phoneNumber,
       password: user.password,
+      boughtTickets: user.boughtTickets,
       tickets: user.tickets,
+      orders: user.orders,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     };
   }
 }

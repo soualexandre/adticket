@@ -94,6 +94,8 @@ export class BatchPrismaGateway implements BatchTypePrismaGateway {
       quantity: batch.quantity,
       tickets: batch.tickets,
       event: batch.event,
+      createdAt: batch.createdAt,
+      updatedAt: batch.updatedAt,
     };
   }
 }

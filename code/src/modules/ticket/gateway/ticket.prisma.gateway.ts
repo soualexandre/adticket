@@ -93,11 +93,20 @@ export class TicketPrismaGateway implements TicketTypePrismaGateway {
       batchId: ticket.batchId,
       userId: ticket.userId,
       price: ticket.price,
-      quantity: ticket.quantity,
-      totalPrice: ticket.totalPrice,
+      buyerId: ticket.buyerId,
+      guestId: ticket.guestId,
+      order: ticket.order,
+      orderId: ticket.orderId,
+      status: ticket.status,
       event: ticket.event,
+      ticketValidations: ticket.ticketValidations,
       batch: ticket.batch,
       user: ticket.user,
+      buyer: ticket.buyer,
+      guest: ticket.guest,
+      link: ticket.link,
+      createdAt: ticket.createdAt,
+      updatedAt: ticket.updatedAt,
     };
   }
 }

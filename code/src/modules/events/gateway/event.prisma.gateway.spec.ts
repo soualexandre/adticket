@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserPrismaGateway } from './user.prisma.gateway';
+import { UserPrismaGateway } from 'src/modules/user/gateway/user.prisma.gateway';
 
 describe('UserPrismaGateway', () => {
   let gateway: UserPrismaGateway;

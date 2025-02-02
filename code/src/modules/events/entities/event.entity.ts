@@ -10,6 +10,8 @@ export class EventEntity {
     image: string;
     batches?: BatchEntity[];
     tickets?: TicketEntity[];
+    createdAt: Date;
+    updatedAt: Date;
     constructor(partial: Partial<Event>) {
         Object.assign(this, partial);
     }
