@@ -1,9 +1,5 @@
+import { ValidationMethod } from "@prisma/client";
 import { TicketEntity } from "src/modules/ticket/entities/ticket.entity";
-enum ValidationMethod {
-    QR_CODE,
-    PIN,
-    NFC
-}
 
 export class TicketValidationsEntity {
     id: string;

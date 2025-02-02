@@ -1,12 +1,8 @@
+import { OrderStatus } from "@prisma/client";
 import { PaymentEntity } from "src/modules/payment/entities/payment.entity";
 import { TicketEntity } from "src/modules/ticket/entities/ticket.entity";
 import { UserEntity } from "src/modules/user/entities/user.entity";
 
-export enum OrderStatus {
-    PENDING,
-    PAID,
-    CANCELLED
-}
 export class OrderEntity {
     id: string;
     userId: string;

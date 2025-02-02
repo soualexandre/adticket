@@ -1,10 +1,5 @@
+import { LinkStatus } from "@prisma/client";
 import { TicketEntity } from "src/modules/ticket/entities/ticket.entity";
-
-export enum LinkStatus {
-    ACTIVE,
-    USED,
-    EXPIRED
-}
 
 export class TicketLinkEntity {
     id: string;

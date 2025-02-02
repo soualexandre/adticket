@@ -1,7 +1,7 @@
 import { CreateOrderDto } from '../dto/create-order.dto';
 import { PaginateOrderOutputDto } from '../dto/paginate-guest.dto';
 import { UpdateOrderDto } from '../dto/update-order.dto';
-import { WhereOrderDto } from '../dto/where-guest.dto';
+import { WhereOrderDto } from '../dto/where-order.dto';
 import { OrderEntity } from '../entities/order.entity';
 
 export const ORDER_TYPE_GATEWAY = 'ORDER_TYPE_GATEWAY';

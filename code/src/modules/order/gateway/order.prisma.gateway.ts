@@ -5,7 +5,7 @@ import { OrderEntity } from '../entities/order.entity';
 import { UpdateOrderDto } from '../dto/update-order.dto';
 import { OrderTypePrismaGateway } from './order.type.gateway';
 import { PaginateOrderOutputDto } from '../dto/paginate-guest.dto';
-import { WhereOrderDto } from '../dto/where-guest.dto';
+import { WhereOrderDto } from '../dto/where-order.dto';
 
 @Injectable()
 export class OrderPrismaGateway implements OrderTypePrismaGateway {

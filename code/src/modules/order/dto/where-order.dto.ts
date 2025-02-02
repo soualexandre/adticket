@@ -1,4 +1,4 @@
-import { OrderStatus } from "../entities/order.entity";
+import { OrderStatus } from "@prisma/client";
 
 export class WhereOrderDto {
     id: string;

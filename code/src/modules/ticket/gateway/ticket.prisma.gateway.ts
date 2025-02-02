@@ -15,6 +15,8 @@ export class TicketPrismaGateway implements TicketTypePrismaGateway {
     const ticket = await this.prisma.ticket.create({
       data: {
         ...createUserDto,
+        orderId: createUserDto.orderId,
+        buyerId: createUserDto.buyerId,
       },
       include: {
         batch: true

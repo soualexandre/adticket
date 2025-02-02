@@ -87,7 +87,9 @@ export class TicketValidationPrismaGateway implements TicketValidationTypePrisma
     return {
       id: ticketValidation.id,
       ticketId: ticketValidation.ticketId,
-      validationCode: ticketValidation.validationCode,
+      location: ticketValidation.location,
+      validatedAt: ticketValidation.validatedAt,
+      method: ticketValidation.method,
       createdAt: ticketValidation.createdAt,
       updatedAt: ticketValidation.updatedAt,
       ticket: ticketValidation.ticket,

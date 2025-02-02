@@ -75,7 +75,10 @@ export class TicketLinkPrismaGateway implements TicketLinkTypePrismaGateway {
     return {
       id: ticketLink.id,
       ticketId: ticketLink.ticketId,
-      link: ticketLink.link,
+      expiration: ticketLink.expiration,
+      linkHash: ticketLink.linkHash,
+      status: ticketLink.status,
+      ticket: ticketLink.ticket,
       createdAt: ticketLink.createdAt,
       updatedAt: ticketLink.updatedAt,
     };
