@@ -100,8 +100,6 @@ export class EventPrismaGateway implements EventTypePrismaGateway {
       date: event.date,
       startTime: event.startTime,
       image: event.image,
-      batches: event.betches,
-      tickets: event.tickets,
       createdAt: event.createdAt,
       updatedAt: event.updatedAt,
     };

@@ -1,13 +1,22 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { EventPrismaGateway } from '../events/gateway/event.prisma.gateway';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { TICKET_TYPE_GATEWAY, TicketTypePrismaGateway } from './gateway/ticket.type.gateway';
 
 @Injectable()
 export class TicketService {
-  constructor(@Inject(TICKET_TYPE_GATEWAY) private readonly ticketGateway: TicketTypePrismaGateway) { }
+  constructor(@Inject(TICKET_TYPE_GATEWAY)
+  private readonly ticketGateway: TicketTypePrismaGateway,
+    private readonly eventGateway: EventPrismaGateway
+  ) { }
   async create(createTicketDto: CreateTicketDto) {
     try {
+      const event = await this.eventGateway.findOne(createTicketDto.eventId);
+      console.log("Event: ", event);
+      if (!event) {
+        throw new HttpException('Event not found', HttpStatus.NOT_FOUND);
+      }
       const ticket = await this.ticketGateway.create(createTicketDto);
       return ticket;
     } catch (err) {

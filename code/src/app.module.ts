@@ -19,6 +19,7 @@ import { TicketValidationModule } from './modules/ticket-validation/ticket-valid
 import { OrderModule } from './modules/order/order.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { GuestModule } from './modules/guest/guest.module';
+import { QrCodeModule } from './modules/qr-code/qr-code.module';
 
 @Module({
   imports: [PrismaModule.forRoot({ isGlobal: true }),
@@ -32,6 +33,7 @@ import { GuestModule } from './modules/guest/guest.module';
     PaymentModule,
     TicketLinkModule,
     TicketValidationModule,
+    QrCodeModule,
   ],
   exports: [
     TicketLinkModule,

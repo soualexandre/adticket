@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import { CreateTicketDto } from '../dto/create-ticket.dto';
 import { PaginateTicketOutputDto } from '../dto/paginate-ticket.dto';
@@ -11,17 +12,21 @@ import { TicketTypePrismaGateway } from './ticket.type.gateway';
 export class TicketPrismaGateway implements TicketTypePrismaGateway {
   constructor(private readonly prisma: PrismaService) { }
 
-  async create(createUserDto: CreateTicketDto): Promise<TicketEntity> {
-    const ticket = await this.prisma.ticket.create({
-      data: {
-        ...createUserDto,
-        orderId: createUserDto.orderId,
-        buyerId: createUserDto.buyerId,
-      },
-      include: {
-        batch: true
-      },
-    });
+  async create(createTicketDto: CreateTicketDto): Promise<TicketEntity> {
+    console.log("create", createTicketDto);
+    const ticketData: any = {
+      event: { connect: { id: createTicketDto.eventId } },
+      batch: { connect: { id: createTicketDto.batchId } },
+      user: createTicketDto.userId ? { connect: { id: createTicketDto.userId } } : undefined,
+      buyer: { connect: { id: createTicketDto.buyerId } },
+      price: createTicketDto.price,
+      status: "PENDING",
+      ...(createTicketDto.orderId ? { order: { connect: { id: createTicketDto.orderId } } } : {}),
+    };
+
+    Object.keys(ticketData).forEach(key => ticketData[key] === undefined && delete ticketData[key]);
+
+    const ticket = await this.prisma.ticket.create({ data: ticketData });
 
     return this.mapToUserEntity(ticket);
   }

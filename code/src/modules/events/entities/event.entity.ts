@@ -8,8 +8,6 @@ export class EventEntity {
     date: Date;
     startTime: Date;
     image: string;
-    batches?: BatchEntity[];
-    tickets?: TicketEntity[];
     createdAt: Date;
     updatedAt: Date;
     constructor(partial: Partial<Event>) {

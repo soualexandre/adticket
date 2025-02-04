@@ -1,7 +1,7 @@
-import { GuestEntity } from "../entities/guest.entity";
+import { QrCodeEntity } from "../entities/qr-code.entity";
 
-export class PaginateGuestOutputDto {
-    data: GuestEntity[];
+export class PaginateQrCodeOutputDto {
+    data: QrCodeEntity[];
     pagination: {
         totalItems: number,
         totalPages: number,

@@ -1,4 +1,5 @@
 import { BatchEntity } from "src/modules/batch/entities/batch.entity";
+import { EventEntity } from "src/modules/events/entities/event.entity";
 import { GuestEntity } from "src/modules/guest/entities/guest.entity";
 import { OrderEntity } from "src/modules/order/entities/order.entity";
 import { TicketLinkEntity } from "src/modules/ticket-link/entities/ticket-link.entity";
@@ -16,20 +17,21 @@ export class TicketEntity {
     id: string;
     eventId: string;
     batchId: string;
-    orderId: string;
+    orderId?: string;
     buyerId: string;
     userId: string | null;
     guestId: string | null;
     price: number;
+    createdAt: Date;
+    updatedAt: Date;
+
     status: TicketStatus;
-    event: Event;
+    event?: EventEntity;
     batch: BatchEntity;
     order: OrderEntity;
     user: UserEntity | null;
     buyer: UserEntity;
-    guest: GuestEntity | null;
+    guest?: GuestEntity | null;
     link: TicketLinkEntity | null;
     ticketValidations: TicketValidationsEntity[];
-    createdAt: Date;
-    updatedAt: Date;
 }

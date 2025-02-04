@@ -88,7 +88,7 @@ model Ticket {
   id          String    @id @default(uuid())
   eventId     String
   batchId     String
-  orderId     String
+  orderId     String?
   buyerId     String
   userId      String?   
   guestId     String?  
@@ -96,13 +96,14 @@ model Ticket {
   status      TicketStatus @default(PENDING)
   event       Event     @relation(fields: [eventId], references: [id])
   batch       Batch     @relation(fields: [batchId], references: [id])
-  order       Order     @relation(fields: [orderId], references: [id])
+  order       Order?     @relation(fields: [orderId], references: [id])
   user        User?     @relation(name: "UserTickets", fields: [userId], references: [id])
   buyer       User      @relation(name: "BuyerTickets", fields: [buyerId], references: [id]) // Correção
   guest       Guest?    @relation(fields: [guestId], references: [id])
   link        TicketLink?
   ticketValidations TicketValidation[] 
 
+  qrCodes     QrCode[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -149,6 +150,21 @@ model TicketValidation {
 
   @@map("ticket_validations")
 }
+
+model QrCode {
+  id          String   @id @default(uuid())
+  ticketId    String   
+  linkHash    String   @unique 
+  expiration  DateTime 
+  status      LinkStatus @default(ACTIVE) 
+  ticket      Ticket?   @relation(fields: [ticketId], references: [id]) 
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("qr_codes")
+}
+
 
 enum TicketStatus {
   PENDING
