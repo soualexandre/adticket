@@ -8,7 +8,7 @@ export class TicketController {
   constructor(private readonly ticketService: TicketService) { }
 
   @Post()
-  create(@Body() createTicketDto: CreateTicketDto) {
+  create(@Body() createTicketDto: CreateTicketDto[]) {
     return this.ticketService.create(createTicketDto);
   }
 

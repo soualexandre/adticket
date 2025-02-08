@@ -35,12 +35,7 @@ export class EventPrismaGateway implements EventTypePrismaGateway {
       take,
       where,
       include: {
-        tickets: {
-          include: {
-            event: true,
-            batch: true,
-          },
-        },
+        batches: true
       },
     });
 
@@ -98,10 +93,14 @@ export class EventPrismaGateway implements EventTypePrismaGateway {
       title: event.title,
       description: event.description,
       date: event.date,
+      location: event.location,
+      time: event.time,
       startTime: event.startTime,
       image: event.image,
       createdAt: event.createdAt,
       updatedAt: event.updatedAt,
+      batches: event.batches,
+      tickets: event.tickets,
     };
   }
 }

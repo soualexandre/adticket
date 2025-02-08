@@ -12,9 +12,8 @@ import { TicketTypePrismaGateway } from './ticket.type.gateway';
 export class TicketPrismaGateway implements TicketTypePrismaGateway {
   constructor(private readonly prisma: PrismaService) { }
 
-  async create(createTicketDto: CreateTicketDto): Promise<TicketEntity> {
-    console.log("create", createTicketDto);
-    const ticketData: any = {
+  async create(createTicketDto: CreateTicketDto[]): Promise<TicketEntity[]> {
+    const ticketsData: any[] = createTicketDto.map(createTicketDto => ({
       event: { connect: { id: createTicketDto.eventId } },
       batch: { connect: { id: createTicketDto.batchId } },
       user: createTicketDto.userId ? { connect: { id: createTicketDto.userId } } : undefined,
@@ -22,13 +21,17 @@ export class TicketPrismaGateway implements TicketTypePrismaGateway {
       price: createTicketDto.price,
       status: "PENDING",
       ...(createTicketDto.orderId ? { order: { connect: { id: createTicketDto.orderId } } } : {}),
-    };
+    }));
 
-    Object.keys(ticketData).forEach(key => ticketData[key] === undefined && delete ticketData[key]);
+    ticketsData.forEach(ticketData => {
+      Object.keys(ticketData).forEach(key => ticketData[key] === undefined && delete ticketData[key]);
+    });
 
-    const ticket = await this.prisma.ticket.create({ data: ticketData });
+    const tickets = await this.prisma.$transaction(ticketsData.map(ticketData =>
+      this.prisma.ticket.create({ data: ticketData })
+    ));
 
-    return this.mapToUserEntity(ticket);
+    return tickets.map(ticket => this.mapToUserEntity(ticket));
   }
 
   async findAll(skip: number, take: number, where?: WhereTicketDto): Promise<PaginateTicketOutputDto> {
@@ -37,8 +40,7 @@ export class TicketPrismaGateway implements TicketTypePrismaGateway {
       take,
       where,
       include: {
-        batch: {
-        },
+        batch: true
       },
     });
 

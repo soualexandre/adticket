@@ -20,6 +20,8 @@ import { OrderModule } from './modules/order/order.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { GuestModule } from './modules/guest/guest.module';
 import { QrCodeModule } from './modules/qr-code/qr-code.module';
+import { CategoryModule } from './modules/category/category.module';
+import { CategoriesModule } from './modules/categories/categories.module';
 
 @Module({
   imports: [PrismaModule.forRoot({ isGlobal: true }),
@@ -34,6 +36,8 @@ import { QrCodeModule } from './modules/qr-code/qr-code.module';
     TicketLinkModule,
     TicketValidationModule,
     QrCodeModule,
+    CategoryModule,
+    CategoriesModule,
   ],
   exports: [
     TicketLinkModule,

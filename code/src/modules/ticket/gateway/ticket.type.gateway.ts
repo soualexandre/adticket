@@ -7,7 +7,7 @@ import { TicketEntity } from '../entities/ticket.entity';
 export const TICKET_TYPE_GATEWAY = 'TICKET_TYPE_GATEWAY';
 
 export interface TicketTypePrismaGateway {
-    create(createUserDto: CreateTicketDto): Promise<TicketEntity>;
+    create(createUserDto: CreateTicketDto[]): Promise<TicketEntity[]>;
     findAll(skip: number, take: number, where?: WhereTicketDto): Promise<PaginateTicketOutputDto>
     findOne(id: string, where?: WhereTicketDto): Promise<TicketEntity>;
     update(

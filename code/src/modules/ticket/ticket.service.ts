@@ -10,10 +10,10 @@ export class TicketService {
   private readonly ticketGateway: TicketTypePrismaGateway,
     private readonly eventGateway: EventPrismaGateway
   ) { }
-  async create(createTicketDto: CreateTicketDto) {
+  async create(createTicketDto: CreateTicketDto[]) {
     try {
-      const event = await this.eventGateway.findOne(createTicketDto.eventId);
-      console.log("Event: ", event);
+      const event = await this.eventGateway.findOne(createTicketDto[0].eventId);
+
       if (!event) {
         throw new HttpException('Event not found', HttpStatus.NOT_FOUND);
       }

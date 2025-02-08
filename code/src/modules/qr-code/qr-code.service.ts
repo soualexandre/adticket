@@ -97,5 +97,4 @@ export class QrCodesService {
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
 }

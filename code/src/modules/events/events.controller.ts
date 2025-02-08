@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
+import { Public } from 'src/common/constants/constants';
 
 @Controller('events')
 export class EventsController {
@@ -11,9 +12,10 @@ export class EventsController {
   create(@Body() createEventDto: CreateEventDto) {
     return this.eventsService.create(createEventDto);
   }
-
+  @Public()
   @Get()
   findAll() {
+    console.log("chegou aqui");
     return this.eventsService.findAll();
   }
 

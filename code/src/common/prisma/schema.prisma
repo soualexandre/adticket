@@ -13,6 +13,8 @@ model User {
   email       String    @unique
   phoneNumber String
   password    String
+  
+
   tickets     Ticket[]  @relation("UserTickets")
   orders      Order[]
   boughtTickets Ticket[] @relation("BuyerTickets") // Relação inversa para Ticket.buyer
@@ -30,14 +32,27 @@ model Event {
   date        DateTime
   startTime   DateTime
   image       String
+  localtion   String?
+  time        String?
   batches     Batch[]
   tickets     Ticket[]
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String?    @unique 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  @@map("events")
+  @@index([date])
+}
 
+model Category {
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  event       Event?  @relation() 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
-  @@map("events")
-  @@index([date])
+  @@map("categories") 
 }
 
 model Batch {
