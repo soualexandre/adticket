@@ -35,7 +35,8 @@ export class EventPrismaGateway implements EventTypePrismaGateway {
       take,
       where,
       include: {
-        batches: true
+        batches: true,
+        category: true,
       },
     });
 
@@ -58,6 +59,9 @@ export class EventPrismaGateway implements EventTypePrismaGateway {
   async findOne(id: string): Promise<EventEntity> {
     const event = await this.prisma.event.findFirst({
       where: { id },
+      include: {
+        batches: true,
+      },
     });
     return this.mapToEventEntity(event);
   }
@@ -98,9 +102,12 @@ export class EventPrismaGateway implements EventTypePrismaGateway {
       startTime: event.startTime,
       image: event.image,
       createdAt: event.createdAt,
+      isCurrent: event.isCurrent,
       updatedAt: event.updatedAt,
       batches: event.batches,
       tickets: event.tickets,
+      categoryId: event.categoryId,
+      category: event.category,
     };
   }
 }

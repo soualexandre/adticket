@@ -60,6 +60,7 @@ model Batch {
   eventId     String
   price       Float
   quantity    Int
+  isCurrent   Boolean?
   tickets     Ticket[]
   event       Event     @relation(fields: [eventId], references: [id])
 
