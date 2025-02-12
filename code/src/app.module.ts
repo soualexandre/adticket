@@ -21,13 +21,19 @@ import { PaymentModule } from './modules/payment/payment.module';
 import { GuestModule } from './modules/guest/guest.module';
 import { QrCodeModule } from './modules/qr-code/qr-code.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { SqsService } from './modules/sqs/sqs.service';
+import { SqsModule } from './modules/sqs/sqs.module';
 
 @Module({
-  imports: [PrismaModule.forRoot({ isGlobal: true }),
+  imports: [
+    PrismaModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TicketModule, AppCacheModule, EventsModule,
     UserModule, BatchModule, AuthModule, CacheModule.register(),
-  ConfigModule.forRoot({ isGlobal: true }),
-  CacheModule.registerAsync(RedisOptions),
+    ConfigModule.forRoot({ isGlobal: true }),
+    CacheModule.registerAsync(RedisOptions),
     GuestModule,
     TicketValidationModule,
     OrderModule,
@@ -36,6 +42,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
     TicketValidationModule,
     QrCodeModule,
     CategoriesModule,
+    SqsModule
   ],
   exports: [
     TicketLinkModule,
@@ -52,6 +59,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
-    }],
+    },
+    SqsService],
 })
 export class AppModule { }

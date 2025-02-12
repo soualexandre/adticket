@@ -3,12 +3,14 @@ import { EventPrismaGateway } from '../events/gateway/event.prisma.gateway';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { TICKET_TYPE_GATEWAY, TicketTypePrismaGateway } from './gateway/ticket.type.gateway';
+import { SqsService } from '../sqs/sqs.service';
 
 @Injectable()
 export class TicketService {
   constructor(@Inject(TICKET_TYPE_GATEWAY)
   private readonly ticketGateway: TicketTypePrismaGateway,
-    private readonly eventGateway: EventPrismaGateway
+    private readonly eventGateway: EventPrismaGateway,
+    private readonly sqsService: SqsService,
   ) { }
   async create(createTicketDto: CreateTicketDto[]) {
     try {
@@ -17,8 +19,10 @@ export class TicketService {
       if (!event) {
         throw new HttpException('Event not found', HttpStatus.NOT_FOUND);
       }
-      const ticket = await this.ticketGateway.create(createTicketDto);
-      return ticket;
+      // const ticket = await this.ticketGateway.create(createTicketDto);
+      const sqsTicket = await this.sqsService.sendMessage(JSON.stringify(createTicketDto));
+      console.log("ticket", sqsTicket);
+      return sqsTicket;
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
