@@ -22,7 +22,11 @@ import { GuestModule } from './modules/guest/guest.module';
 import { QrCodeModule } from './modules/qr-code/qr-code.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { SqsService } from './modules/sqs/sqs.service';
-import { SqsModule } from './modules/sqs/sqs.module';
+import { SqsCustomModule } from './modules/sqs/sqs.module';
+import { TicketConsumerService } from './modules/ticket/ticket.consumer.service';
+import { TICKET_TYPE_GATEWAY } from './modules/ticket/gateway/ticket.type.gateway';
+import { TicketPrismaGateway } from './modules/ticket/gateway/ticket.prisma.gateway';
+import { MercadoPagoModule } from './modules/geteways/mercado-pago/mercado-pago.module';
 
 @Module({
   imports: [
@@ -42,7 +46,8 @@ import { SqsModule } from './modules/sqs/sqs.module';
     TicketValidationModule,
     QrCodeModule,
     CategoriesModule,
-    SqsModule
+    SqsCustomModule,
+    MercadoPagoModule
   ],
   exports: [
     TicketLinkModule,
@@ -52,6 +57,7 @@ import { SqsModule } from './modules/sqs/sqs.module';
   ],
   controllers: [AppController],
   providers: [AppService, UserPrismaGateway,
+    TicketConsumerService,
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
@@ -60,6 +66,11 @@ import { SqsModule } from './modules/sqs/sqs.module';
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
+    {
+      provide: TICKET_TYPE_GATEWAY,
+      useClass: TicketPrismaGateway,
+    },
+
     SqsService],
 })
 export class AppModule { }

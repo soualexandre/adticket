@@ -19,9 +19,8 @@ export class TicketService {
       if (!event) {
         throw new HttpException('Event not found', HttpStatus.NOT_FOUND);
       }
-      // const ticket = await this.ticketGateway.create(createTicketDto);
       const sqsTicket = await this.sqsService.sendMessage(JSON.stringify(createTicketDto));
-      console.log("ticket", sqsTicket);
+
       return sqsTicket;
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
